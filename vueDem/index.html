@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>vue 父子组件传值</title>
+	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+</head>
+<body>
+	
+	<div id="root">
+		<counter :parm="num1" @inc="handleInc"></counter>
+		<counter :parm="num2" @inc="handleInc"></counter>
+		<div v-text="total"></div>
+		<!--<todo-item :parm="5"></todo-item>-->
+	</div>
+	
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/public.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		//父子组件传值 保持 数据单向流的方式，父通过属性props向子组件传值，子组件不能直接修改父组件的值。
+		var counter = {
+			props : ['parm'],
+			data : function(){
+				return {
+					num : this.parm
+				}
+			},
+			template : '<div @click="handleClick">{{num}}</div>',
+			methods : {
+				handleClick : function (){
+					this.num ++ ;
+					this.$emit('inc',1);
+				}
+			}
+		}
+		
+		var vm = new Vue({
+			el : '#root',
+			data : {
+				num1 : 1,
+				num2 : 2,
+				total : 3,
+			},
+			components : {
+				counter : counter
+			},
+			methods : {
+				handleInc : function(e) {
+					this.total += e;
+				}
+			}
+		})
+	</script>
+</body>
+</html>
