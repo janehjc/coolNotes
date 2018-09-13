@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=4IU3oIAMpZhfWZsMu7xzqBBAf6vMHcoa"></script>
+		<title>百度地图位置模糊搜索</title>
+		<style type="text/css">
+			body{overflow: auto;}
+			#suggestId{width: 300px;}
+			#test{text-align: center;}
+		</style>
+	</head>
+	<body>
+		<div id="l-map"></div>
+		<div class="col-sm-8" id="r-result">
+			<p class="error">请填写正确的信息</p>
+			<input id="suggestId" name="sendAddress" type="text" class="form-control" placeholder="街道详细（精确到门牌号） " required="required">
+		</div>
+		<div id="searchResultPanel" style="border: 1px solid #C0C0C0;height: auto; display: none;"></div>
+		<div id="l-map"></div>
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<table id="test" border="1	" cellspacing="0" cellpadding="0" width="2000px">
+			<tr>
+				<th>序号</th>
+				<th>分类A</th>
+				<th>分类B</th>
+				<th>名称</th>
+				<th>序号</th>
+				<th>分类A</th>
+				<th>分类B</th>
+				<th>名称</th>
+				<th>序号</th>
+				<th>分类A</th>
+				<th>分类B</th>
+				<th>名称</th>
+			</tr>
+			<tr>
+				<td>fasfdas</td>
+				<td>华盛顿峰会拉法基</td>
+				<td>房贷首付就撒了地方房贷首付就撒了地方房贷首付就撒了地方</td>
+				<td>Data</td>
+				<td>fasfdas</td>
+				<td>华盛顿峰会拉法基</td>
+				<td>房贷首付就撒了地方房贷首付就撒了地方房贷首付就撒了地方</td>
+				<td>Data</td>
+				<td>fasfdas</td>
+				<td>华盛顿峰会拉法基</td>
+				<td>房贷首付就撒了地方房贷首付就撒了地方房贷首付就撒了地方</td>
+				<td>Data</td>
+			</tr>
+			<tr>
+				<td>fsfdaffdafasf</td>
+				<td>呵呵呵</td>
+				<td>对方是否</td>
+				<td>飞洒发发</td>
+				<td>fasfdas</td>
+				<td>华盛顿峰会拉法基</td>
+				<td>房贷首付就撒了地方房贷首付就撒了地方房贷首付就撒了地方</td>
+				<td>Data</td>
+				<td>fasfdas</td>
+				<td>华盛顿峰会拉法基</td>
+				<td>房贷首付就撒了地方房贷首付就撒了地方房贷首付就撒了地方</td>
+				<td>Data</td>
+			</tr>
+			<tr>
+				<td>钉钉</td>
+				<td>发放打</td>
+				<td>哥仨个发</td>
+				<td>发的发</td>
+				<td>fasfdas</td>
+				<td>华盛顿峰会拉法基</td>
+				<td>房贷首付就撒了地方房贷首付就撒了地方房贷首付就撒了地方</td>
+				<td>Data</td>
+				<td>fasfdas</td>
+				<td>华盛顿峰会拉法基</td>
+				<td>房贷首付就撒了地方房贷首付就撒了地方房贷首付就撒了地方</td>
+				<td>Data</td>
+			</tr>
+			<tr>
+				<td>狗狗的十个</td>
+				<td>发士大夫</td>
+				<td> 发射点发顺丰</td>
+				<td>发射点发顺丰	</td>
+				<td>fasfdas</td>
+				<td>华盛顿峰会拉法基</td>
+				<td>房贷首付就撒了地方房贷首付就撒了地方房贷首付就撒了地方</td>
+				<td>Data</td>
+				<td>fasfdas</td>
+				<td>华盛顿峰会拉法基</td>
+				<td>房贷首付就撒了地方房贷首付就撒了地方房贷首付就撒了地方</td>
+				<td>Data</td>
+			</tr>
+		</table>
+	</body>
+</html>
+<script type="text/javascript">
+	var str="-1";
+	if(/^-?[0-9]\d*$/.test(str)){
+	    alert("整数");
+	}
+	
+	
+	
+	
+	loadMapAutocomplete("suggestId", "searchResultPanel");
+	function G(id) {
+		return document.getElementById(id);
+	}
+	function loadMapAutocomplete(suggestId, searchResultPanel) {
+		var checkValue;
+		Ac = new BMap.Autocomplete( //建立一个自动完成的对象
+			{
+				"input": suggestId,
+			});
+		Ac.addEventListener("onhighlight", function(e) { //鼠标放在下拉列表上的事件
+			var str = "";
+			var _value = e.fromitem.value;
+			var value = "";
+			if(e.fromitem.index > -1) {
+				value = _value.province + _value.city + _value.district + _value.street + _value.business;
+			}
+			str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+			value = "";
+			if(e.toitem.index > -1) {
+				_value = e.toitem.value;
+				value = _value.province + _value.city + _value.district + _value.street + _value.business;
+			}
+			str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+			G(searchResultPanel).innerHTML = str;
+		});
+		Ac.addEventListener("onconfirm", function(e) { //鼠标点击下拉列表后的事件
+			var _value = e.item.value;
+			console.log(e);
+			checkValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+			G(searchResultPanel).innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + checkValue;
+			var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+          	
+		});
+	}
+</script>
