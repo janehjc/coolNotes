@@ -3,37 +3,62 @@
 <head>
 	<meta charset="UTF-8">
 	<title>钉钉获取userId/openId</title>
-	<script src="//g.alicdn.com/dingding/dingtalk-jsapi/2.0.8/dingtalk.open.js"></script>
-	<script src="js/jssha256.js"></script>
-	<script type="text/javascript" src="js/vue.js" ></script>
-
 </head>
 <body>
-
-
+	<script src="//g.alicdn.com/dingding/dingtalk-jsapi/2.0.8/dingtalk.open.js"></script>
+	<script src="https://g.alicdn.com/dingding/open-develop/1.5.1/dingtalk.js" type="text/javascript" charset="utf-8"></script>
+	<!--<script src="js/jssha256.js"></script>-->
 	<script type="text/javascript">
+		
+		dd.config({
+		    agentId: '', // 必填，微应用ID
+		    corpId: '',//必填，企业ID
+		    timeStamp: , // 必填，生成签名的时间戳
+		    nonceStr: '', // 必填，生成签名的随机串
+		    signature: '', // 必填，签名
+		    type:0/1,   //选填。0表示微应用的jsapi,1表示服务窗的jsapi。不填默认为0。该参数从dingtalk.js的0.8.3版本开始支持
+		    jsApiList : [ 'runtime.info', 'biz.contact.choose',
+		        'device.notification.confirm', 'device.notification.alert',
+		        'device.notification.prompt', 'biz.ding.post',
+		        'biz.util.openLink' ] // 必填，需要使用的jsapi列表，注意：不要带dd。
+		});
+		dd.ready(function() {
+		    dd.runtime.permission.requestAuthCode({
+		        corpId: "ding4be62455854a831c35c2f4657eb6378f",
+		        onSuccess: function(result) {
+//					console.log(result);
+		        },
+		        onFail : function(err) {
+		        	console.log(err);
+		        }
+		  
+		    });
+		});
+		
+		
+		
 //		accessKey	三方企业E应用的suiteKey
 //		timestamp	当前时间戳，单位是毫秒
 //		suiteTicket	钉钉给E应用推送的ticket，测试应用随意填写如：TestSuiteTicket，正式应用需要从回调地址获取suiteTicket
 //		signature	通过suiteSecret计算出来的签名值\
-		var accessKey = 'suite68b1mxgd4a3zew2e',
-			timestamp = Date.parse(new Date()),
-			suiteTicket = 'aaaaa',
-			signature = '',
-			suiteSecret = 'tnox54qrrrXejQNbchUiaD4BLybNmXhcmXwWMCz8FIYYKO9OCukusfmSKjlHArhm';
-		
-		HMAC_SHA256_init(suiteSecret);
-		HMAC_SHA256_write(timestamp+"\n"+suiteTicket);
-		console.log(timestamp+"\n"+suiteTicket);
-		var mac = HMAC_SHA256_finalize();
-		var hash = array_to_hex_string(mac);
-		console.log(hash)
-		var hashInBase64 = Base64.encode();
-		console.log(hashInBase64);
-		signature = encodeURI(hashInBase64);
-		
-		var accessUrl = 'https://oapi.dingtalk.com/service/get_corp_token?signature='+signature+'&timestamp='+timestamp+'&suiteTicket='+suiteTicket+'&accessKey='+suiteSecret;
-		console.log(accessUrl);
+//		var accessKey = 'suite68b1mxgd4a3zew2e',
+//			timestamp = Date.parse(new Date()),
+//			suiteTicket = 'aaaaa',
+//			signature = '',
+//			suiteSecret = 'tnox54qrrrXejQNbchUiaD4BLybNmXhcmXwWMCz8FIYYKO9OCukusfmSKjlHArhm';
+//		
+//		HMAC_SHA256_init(suiteSecret);
+//		HMAC_SHA256_write(timestamp+"\n"+suiteTicket);
+//		console.log(timestamp+"\n"+suiteTicket);
+//		var mac = HMAC_SHA256_finalize();
+//		var hash = array_to_hex_string(mac);
+//		console.log(hash)
+//		var hashInBase64 = Base64.encode();
+//		console.log(hashInBase64);
+//		signature = encodeURI(hashInBase64);
+//		
+//		var accessUrl = 'https://oapi.dingtalk.com/service/get_corp_token?signature='+signature+'&timestamp='+timestamp+'&suiteTicket='+suiteTicket+'&accessKey='+suiteSecret;
+//		console.log(accessUrl);
 		
 	</script>
 </body>
