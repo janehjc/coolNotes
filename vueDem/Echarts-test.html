@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>echarts.js中国地图省份悬浮提示</title>
+    <!-- <script src="js/jquery-1.9.1.min.js"></script> -->
+    <script src="js/echarts.min.js"></script>
+    <script src="js/china.js"></script>
+    <style>
+        body {
+            background: url(./img/bg.png) no-repeat;
+            background-size: 100% 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="container" style="height: 430px;width:100%"></div>
+    <div id="drawBar" style="height: 230px;width:300px"></div>
+
+    <script type="text/javascript">
+        // 全国省份 热力图
+        var option = {
+            color: ['#61C9FD', '#9EAEE1'],
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    if (params.data) {
+                        return params.data.name + '分公司' + '<br/>' + '项目:' + params.data.value + '<br/>' + '预警:' + (params.value - params.data.value);
+                    }
+                },
+            },
+            legend: {
+                orient: 'vertical',
+                left: '30px',
+                bottom: '50px',
+                data: ['海外分公司', '基础设施部'],
+                textStyle: {
+                    color: '#fff'
+                }
+            },
+            visualMap: {
+                show: false,
+                min: 0,
+                max: 100,
+                left: 'left',
+                top: 'bottom',
+                color: ['#6FD5FE', '#95A5DD', '#B1EB96', '#FFE584'],           // 文本，默认为数值文本
+                calculable: true
+            },
+            series: [{
+                name: '海外分公司',
+                type: 'map',
+                mapType: 'china',
+                showLegendSymbol: false,
+                itemStyle: {
+                    opacity: '0.3',
+                    normal: {
+                        label: {
+                            show: false,//默认是否显示省份名称    
+                        },
+                        areaStyle: {
+                            color: 'red',//默认的地图板块颜色
+                        },
+                        areaColor: 'rgba(128, 128, 128, 0.1)',
+                        borderWidth: 1,
+                        borderColor: '#ABD8F9',
+                    },
+                    emphasis: {
+                        label: {
+                            show: false,//选中状态是否显示省份名称
+                        },
+                        areaStyle: {
+                            color: 'pink',//选中状态的地图板块颜色
+                        },
+                        areaColor: '#6FD3FE'
+                    },
+                },
+                //此为加载的数据
+                data: [
+                    { name: '广东', value: 111 },
+                    { name: '广西', value: 1 },
+                    { name: '四川', value: 30 },
+                    { name: '云南', value: 65 },
+                    { name: '贵州', value: 65 },
+                    { name: '海南', value: 65 }
+                ]
+            },
+            {
+                name: '基础设施部',
+                type: 'map',
+                mapType: 'china',
+                showLegendSymbol: false,
+                itemStyle: {
+                    areaColor: '#000',
+                    normal: {
+                        label: {
+                            show: false,//默认是否显示省份名称    
+                        },
+                        areaStyle: {
+                            color: 'red',//默认的地图板块颜色
+                        },
+                        borderWidth: 1,
+                        borderColor: '#ABD8F9',
+                    },
+                    emphasis: {
+                        label: {
+                            show: false,//选中状态是否显示省份名称
+                        },
+                        areaStyle: {
+                            color: 'pink',//选中状态的地图板块颜色
+                        },
+                    },
+                },
+                //此为加载的数据
+                data: [
+                    { name: '广东', value: 1 },
+                    { name: '广西', value: 1 },
+                    { name: '四川', value: 1 },
+                    { name: '云南', value: 1 },
+                    { name: '贵州', value: 1 },
+                    { name: '贵州', value: 1 }
+                ]
+            }]
+        };
+        //初始化echarts实例
+        var myChart = echarts.init(document.getElementById('container'));
+        //使用制定的配置项和数据显示图表
+        myChart.setOption(option);
+        window.onresize = myChart.resize;
+
+        // 柱状图
+        var optionBar = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                show: false,
+                // left: '4%',
+                right: '4%',
+                bottom: '2%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: ['广州', '云贵', '川渝', '深圳', '海南', '海外', '基础', '安装'],
+                    axisLabel: {
+                        show: true,
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    }
+
+                }
+            ],
+            yAxis: [
+                {
+                    name: '合\n格\n率\n',
+                    nameTextStyle: {
+                        color: '#fff'
+                    },
+                    nameLocation: 'middle',
+                    nameRotate: '',
+                    type: 'category',
+                    data: []
+                }
+            ],
+            series: [
+                {
+                    name: '直接访问',
+                    type: 'bar',
+                    barWidth: '40%',
+                    itemStyle: {
+                        normal: {
+                            //每根柱子颜色设置
+                            color: function (params) {
+                                let colorList = [
+                                    "#1B48FB",
+                                    "#1B48FB",
+                                    "#1B48FB",
+                                    "#1B48FB",
+                                    "#1B48FB",
+                                    "#1B48FB",
+                                    "#2DCB8F",
+                                    "#DF718C",
+                                ];
+                                return colorList[params.dataIndex];
+                            }
+                        }
+                    },
+                    data: [1, 2, 5, 4, 5, 6, 7, 7]
+                }
+            ]
+        };
+        var myChartBar = echarts.init(document.getElementById('drawBar'));
+        //使用制定的配置项和数据显示图表
+        myChartBar.setOption(optionBar);
+    </script>
+
+</body>
+
+</html>
