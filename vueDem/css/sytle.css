@@ -40,7 +40,10 @@ p {
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    /*webpack打包多行省略失效*/
+    /*! autoprefixer: off */
     -webkit-box-orient: vertical;
+    /* autoprefixer: on */
 }
 
 /* table 添加滚动条 */
