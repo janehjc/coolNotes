@@ -5,3 +5,21 @@
 1、loadsh  ----   npm i --save lodash
 2、shortid ---- const shortid = require('shortid')    短ID
 3、
+$size: 0, 5, 10, 15, 20, 50, 100;
+$position: 'top', 'left', 'bottom', 'right';
+@each $i in $size {
+  .m-#{$i} {
+    margin: #{$i}px;
+  }
+  .p-#{$i} {
+    padding: #{$i}px;
+  }
+  @each $p in $position {
+    .m#{str-slice($p,0,1)}-#{$i} {
+      margin-#{$p}: #{$i}px;
+    }
+    .p#{str-slice($p,0,1)}-#{$i} {
+      padding-#{$p}: #{$i}px;
+    }
+  }
+}
